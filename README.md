@@ -4,4 +4,4 @@
 
 ## Target commit structure
 
-![target structure](\files\target.png)
+![target structure](/files/target.png)
