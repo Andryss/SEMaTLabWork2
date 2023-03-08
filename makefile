@@ -1,7 +1,7 @@
 
-.PHONY: build git svn clean git-clean svn-clean
+.PHONY: all git svn clean git-clean svn-clean
 
-build: git svn
+all: git svn
 
 git:
 	# Creating git repository...
