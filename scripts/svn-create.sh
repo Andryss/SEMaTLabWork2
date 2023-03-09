@@ -45,7 +45,7 @@ svn commit -m "r5"
 svn merge file://"$path"/repository/branches/feature trunk --accept postpone
 cp -r ../../commits/commit6/* trunk/
 svn resolved trunk/Lab4.java
-svn commit -m "r6"
+svn commit -m "r6 (merge r5 into r3)"
 
 cp -r ../../commits/commit7/* trunk/
 svn commit -m "r7"
@@ -71,7 +71,11 @@ svn commit -m "r13" --username abuzov
 svn merge file://"$path"/repository/branches/develop trunk --accept postpone
 cp -r ../../commits/commit14/* trunk/
 svn resolved trunk/Lab4.java
-svn commit -m "r14" --username klimenkov
+svn commit -m "r14 (merge r13 into r12)" --username klimenkov
+
+log_file="$1"
+log_file_full="$1-full"
 
 svn update
-svn log -v
+svn log -v >../"${log_file}"
+svn log -v --diff >../"${log_file_full}"

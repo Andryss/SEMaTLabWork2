@@ -5,11 +5,11 @@ all: git svn
 
 git:
 	# Creating git repository...
-	sh scripts/git-create.sh
+	sh scripts/git-create.sh .gitlog 2>/dev/null >&2
 
 svn:
 	# Creating svn repository...
-	sh scripts/svn-create.sh
+	sh scripts/svn-create.sh .svnlog 2>/dev/null >&2
 
 clean: git-clean svn-clean
 

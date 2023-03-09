@@ -99,4 +99,8 @@ git commit -m "r14"
 
 git branch -d feature develop
 
-git log --oneline --graph
+log_file="$1"
+log_file_full="$1-full"
+
+git log --oneline --graph >"${log_file}"
+git log --pretty=full --graph -p . >"${log_file_full}"
