@@ -1,9 +1,11 @@
-if [ -d git ]; then
-    echo "Git already created"
-    exit
+if [ -d git ]
+then
+    echo "Git directory already created (it will be rewritten)"
+    rm -rf git/*
+else
+    mkdir git
 fi
 
-mkdir git
 cd git || exit
 
 git init --initial-branch=master
