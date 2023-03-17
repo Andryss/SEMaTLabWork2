@@ -108,7 +108,7 @@ svn switch ^/trunk
 
 svn merge ^/branches/big-feature --accept postpone
 cp -r ../../commits/commit14/* .
-svn resolved Lab4.java
+svn resolved -q ./*
 svn commit -m "r14 (merge big-feature into trunk)" --username klimenkov
 
 svn rm ^/branches/big-feature -m "Remove branch big-feature"
@@ -120,6 +120,10 @@ svn copy ^/trunk ^/tags/1.0.0-stable -m "1.0.0-stable release"
 log_file="$1"
 log_file_full="$1-full"
 
-svn update
+cd ..
+rm -rf working-copy
+svn checkout file://"$path"/repository working-copy
+cd working-copy || exit
+
 svn log -v >../"${log_file}"
 svn log -v --diff >../"${log_file_full}"
