@@ -13,85 +13,108 @@ path=$(pwd)
 
 # Init repository and create structure
 svnadmin create repository
-svn mkdir -m "Create directory structure." --username admin \
+svn mkdir -m "Create directory structure" --username admin \
   file://"$path"/repository/trunk \
   file://"$path"/repository/branches \
   file://"$path"/repository/tags
 
 # Create working copy
-svn checkout file://"$path"/repository working-copy
+svn checkout file://"$path"/repository/trunk working-copy
 cd working-copy || exit
 
 # Commit r0
-cp -r ../../commits/commit0/* trunk/
-svn add -q trunk/*
+cp -r ../../commits/commit0/* .
+svn add -q ./*
 svn commit -m "r0" --username klimenkov
 
-# Commit r1 (+ branch)
-svn copy file://"$path"/repository/trunk branches/develop
+# Create new brunch
+svn copy ^/trunk ^/branches/big-feature -m "Create branch big-feature from trunk"
+svn switch ^/branches/big-feature
 
-cp -r ../../commits/commit1/* branches/develop/
-svn add -q branches/develop/*
+# Commit r1
+cp -r ../../commits/commit1/* .
+svn add -q ./*
 svn commit -m "r1" --username abuzov
 
 # Commit r2
-cp -r ../../commits/commit2/* trunk/
-svn add -q trunk/*
+svn switch ^/trunk
+
+cp -r ../../commits/commit2/* .
+svn add -q ./*
 svn commit -m "r2" --username klimenkov
 
 # Commit r3
-cp -r ../../commits/commit3/* trunk/
+cp -r ../../commits/commit3/* .
 svn commit -m "r3"
 
-# Commit r4 (+ branch)
-svn copy file://"$path"/repository/trunk branches/feature
+# Create new brunch
+svn copy ^/trunk ^/branches/small-feature -m "Create branch small-feature from trunk"
+svn switch ^/branches/small-feature
 
-cp -r ../../commits/commit4/* branches/feature/
+# Commit r4
+cp -r ../../commits/commit4/* .
 svn commit -m "r4"
 
 # Commit r5
-cp -r ../../commits/commit5/* branches/feature/
+cp -r ../../commits/commit5/* .
 svn commit -m "r5"
 
 # Commit r6 (merge)
-svn merge file://"$path"/repository/branches/feature trunk --accept postpone
-cp -r ../../commits/commit6/* trunk/
-svn resolved trunk/Lab4.java
-svn commit -m "r6 (merge r5 into r3)"
+svn switch ^/trunk
+
+svn merge ^/branches/small-feature --accept postpone
+cp -r ../../commits/commit6/* .
+svn resolved Lab4.java
+svn commit -m "r6 (merge small-feature into trunk)"
+
+svn rm ^/branches/small-feature -m "Remove branch small-feature"
 
 # Commit r7
-cp -r ../../commits/commit7/* trunk/
+cp -r ../../commits/commit7/* .
 svn commit -m "r7"
 
 # Commit r8
-cp -r ../../commits/commit8/* branches/develop/
+svn switch ^/branches/big-feature
+
+cp -r ../../commits/commit8/* .
 svn commit -m "r8" --username abuzov
 
 # Commit r9
-cp -r ../../commits/commit9/* branches/develop/
+cp -r ../../commits/commit9/* .
 svn commit -m "r9"
 
 # Commit r10
-cp -r ../../commits/commit10/* branches/develop/
+cp -r ../../commits/commit10/* .
 svn commit -m "r10"
 
 # Commit r11
-cp -r ../../commits/commit11/* branches/develop/
+cp -r ../../commits/commit11/* .
 svn commit -m "r11"
 
 # Commit r12
-cp -r ../../commits/commit12/* trunk/
+svn switch ^/trunk
+
+cp -r ../../commits/commit12/* .
 svn commit -m "r12" --username klimenkov
 
 # Commit r13
-cp -r ../../commits/commit13/* branches/develop/
+svn switch ^/branches/big-feature
+
+cp -r ../../commits/commit13/* .
 svn commit -m "r13" --username abuzov
 
 # Commit r14 (merge)
-svn merge file://"$path"/repository/branches/develop trunk --accept postpone
-cp -r ../../commits/commit14/* trunk/
-svn resolved trunk/Lab4.java
-svn commit -m "r14 (merge r13 into r12)" --username klimenkov
+svn switch ^/trunk
+
+svn merge ^/branches/big-feature --accept postpone
+cp -r ../../commits/commit14/* .
+svn resolved Lab4.java
+svn commit -m "r14 (merge big-feature into trunk)" --username klimenkov
+
+svn rm ^/branches/big-feature -m "Remove branch big-feature"
+
+# Release
+svn copy ^/trunk ^/tags/1.0.0-stable -m "1.0.0-stable release"
 
 # Logging
 log_file="$1"
