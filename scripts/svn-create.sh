@@ -64,7 +64,7 @@ svn switch ^/trunk
 
 svn merge ^/branches/small-feature --accept postpone
 cp -r ../../commits/commit6/* .
-svn resolved Lab4.java
+svn resolved Lab4.java          # svn resolve PATH --accept working
 svn commit -m "r6 (merge small-feature into trunk)"
 
 svn rm ^/branches/small-feature -m "Remove branch small-feature"
@@ -108,7 +108,7 @@ svn switch ^/trunk
 
 svn merge ^/branches/big-feature --accept postpone
 cp -r ../../commits/commit14/* .
-svn resolved -q ./*
+svn resolved -q ./*          # svn resolve PATH --accept working
 svn commit -m "r14 (merge big-feature into trunk)" --username klimenkov
 
 svn rm ^/branches/big-feature -m "Remove branch big-feature"
