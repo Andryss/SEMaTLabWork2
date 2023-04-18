@@ -2,11 +2,10 @@
 if [ -d git ]
 then
     echo "Git directory already created (it will be rewritten)"
-    rm -rf git/*
-else
-    mkdir git
+    rm -rf git
 fi
 
+mkdir git
 cd git || exit
 
 # Init repository

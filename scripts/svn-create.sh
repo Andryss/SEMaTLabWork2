@@ -2,11 +2,10 @@
 if [ -d svn ]
 then
     echo "Svn directory already created (it will be rewritten)"
-    rm -rf svn/*
-else
-    mkdir svn
+    rm -rf svn
 fi
 
+mkdir svn
 cd svn || exit
 
 path=$(pwd)
